@@ -1,0 +1,17 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    em-mysqlplus (0.1.5)
+      eventmachine (>= 0.12.9)
+    eventmachine (1.0.0.rc.4)
+    json (1.7.4)
+    mysqlplus (0.1.2)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  em-mysqlplus (= 0.1.5)
+  eventmachine (= 1.0.0.rc.4)
+  json
+  mysqlplus (= 0.1.2)
