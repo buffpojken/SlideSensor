@@ -43,7 +43,7 @@ module SensorParser
     unless data["type"] == "state"
       return
     end
-    $ride << data['state']["Interface"]   
+    $ride << data['data']["Interface"]   
     puts $ride.inspect
   end  
 end  
