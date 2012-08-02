@@ -11,11 +11,16 @@ class Ride
   end
 
   def <<(data)
-    # 
+    self.start = data["onTime1"]
+    self.stop  = data["onTimeTotal"]
+    self.state = data['onState']
+    if data['onTimeTotal'] != 0
+      self.save
+    end
   end                                 
 
   def save
-    # Write to db here...
+    puts "Saving..."
   end
 end                                   
 
@@ -31,13 +36,15 @@ end
 #             "onTime3":0,"onTimeTotal":0,"onState":0}},
 # "from":"beckhoff"}         
 
-require 'eventmachine'
-
 module SensorParser  
   def receive_data(data) 
     data = JSON.parse(data)
     puts data.inspect
-    
+    unless data["type"] == "state"
+      return
+    end
+    $ride << data["Interface"]   
+    puts $ride.inspect
   end  
 end  
 
