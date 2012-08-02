@@ -36,7 +36,7 @@ require 'eventmachine'
 module SensorParser  
   def receive_data(data) 
     data = JSON.parse(data)
-    
+    puts data.inspect
     
   end  
 end  
