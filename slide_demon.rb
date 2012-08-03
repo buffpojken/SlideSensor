@@ -46,7 +46,10 @@ class Pump
       "value" => !self.state
     }          
     self.state = !self.state
-    $oc.send(payload.to_json+"\n", 0)
+    cl = UDPSocket.new
+    cl.setsockopt(Socket::SOL_SOCKET,Socket::SO_REUSEADDR,1)
+    cl.setsockopt(Socket::SOL_SOCKET,Socket::SO_BROADCAST,1)
+    cl.send(payload.to_json+"\n", 0, '0.0.0.0', 8282)
   end
 end
 
@@ -92,7 +95,7 @@ class Trafficlight
           self.red = true
         end
      end    
-      cl = UDPSocket.new
+     cl = UDPSocket.new
      cl.setsockopt(Socket::SOL_SOCKET,Socket::SO_REUSEADDR,1)
      cl.setsockopt(Socket::SOL_SOCKET,Socket::SO_BROADCAST,1)
      cl.send(payload.to_json+"\n", 0, '0.0.0.0', 8282)
