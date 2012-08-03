@@ -67,29 +67,29 @@ class Trafficlight
       when "green"              
         payload['tag'] = "ibForceGreen"    
         if self.green
-          payload['value'] = true            
-          self.green = true
-        else          
           payload['value'] = false            
           self.green = false
+        else          
+          payload['value'] = true            
+          self.green = true
         end
       when "yellow"          
         payload['tag'] = "ibForceYellow"
         if self.yellow
-          payload['value'] = true
-          self.yellow = true
-        else
           payload['value'] = false
-          self.yellow = false          
+          self.yellow = false
+        else
+          payload['value'] = true
+          self.yellow = true          
         end
        when "red"            
         payload['tag'] = "ibForceRed"
         if self.red
-          payload['value'] = true
-          self.red = true        
-        else
           payload['value'] = false
-          self.red = false
+          self.red = false        
+        else
+          payload['value'] = true
+          self.red = true
         end
       end
     $oc.send(payload.to_json+"\n", 0)    
