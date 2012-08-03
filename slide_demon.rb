@@ -13,9 +13,9 @@ class APIServer < EM::Connection
     no_environment_strings
   end        
 
-  def process_http_request
-    params = CGI::parse((@http_query_string || ""))      
-    
+  def process_http_request                               
+    puts "*"
+    params = CGI::parse((@http_query_string || ""))          
     if @http_path_info == "/pump"
       $pump.toggle
     end
@@ -120,7 +120,8 @@ end
 class Ride
   attr_accessor :points, :start, :stop, :state
 
-  def initialize()
+  def initialize()   
+    self.state = 0
     self.start, self.stop, self.points = false, false, []
   end
 
@@ -141,7 +142,7 @@ class Ride
     puts "insert into photos(temperature, ride_time, ride_no, timestamp_1, timestamp_2, timestamp_3, created_at, updated_at) select #{$temperature}, #{self.stop}, count(*)+1, #{self.start}, #{self.points[0]}, #{self.points[1]}, NOW(), NOW() from photos"
     q = $db.query("insert into photos(temperature, ride_time, ride_no, timestamp_1, timestamp_2, timestamp_3, created_at, updated_at) select #{$temperature}, #{self.stop}, count(*)+1, #{self.start}, #{self.points[0]}, #{self.points[1]}, NOW(), NOW() from photos")    
     q.callback do |res|
-      puts "Saved"
+      $ride = Ride.new
     end
     q.errback do |res|
       puts res.inspect      
@@ -164,7 +165,7 @@ end
 class SensorParser < EventMachine::Connection
   def receive_data(data) 
     data = JSON.parse(data)
-    puts data.inspect
+    puts data.inspect    
     unless data["type"] == "state"
       return
     end                    
