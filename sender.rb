@@ -34,7 +34,7 @@ sock.setsockopt(Socket::SOL_SOCKET, Socket::SO_BROADCAST, 1)
 payload = {
   "to"    => "beckhoff", 
   "cmd"   => "set", 
-  "tag"   => "ibForceYellow",
+  "tag"   => "ibPump",
   "from"  => "slider",
   "value" => false
 }

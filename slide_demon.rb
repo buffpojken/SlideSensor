@@ -92,8 +92,10 @@ class Trafficlight
           self.red = true
         end
       end    
-      puts payload.inspect
-    $oc.send(payload.to_json+"\n", 0)    
+      puts payload.inspect       
+      oc = UDPSocket.new                  
+      oc.setsockopt(Socket::SOL_SOCKET,Socket::SO_BROADCAST,1)
+      oc.send(payload.to_json+"\n", 0, 'kanan.vassaro.net', 8282)    
   end
 
   def set(data)
@@ -211,9 +213,9 @@ cl.setsockopt(Socket::SOL_SOCKET,Socket::SO_BROADCAST,1)
 
 cl.bind('0.0.0.0', 8282)
                            
-$oc = UDPSocket.new                  
-$oc.setsockopt(Socket::SOL_SOCKET,Socket::SO_BROADCAST,1)
-$oc.connect('0.0.0.0', 8282)
+# $oc = UDPSocket.new                  
+# $oc.setsockopt(Socket::SOL_SOCKET,Socket::SO_BROADCAST,1)
+# $oc.connect('0.0.0.0', 8282)
 
 EventMachine::run {         
   $db = EventMachine::MySQL.new(:host => "localhost", :username => "root", :database => "kanan_dev")  
