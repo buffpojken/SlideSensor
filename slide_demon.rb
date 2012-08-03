@@ -76,7 +76,7 @@ class Trafficlight
       end   
           
      puts payload.inspect
-#    $oc.send(payload.to_json+"\n", 0)    
+     $oc.send(payload.to_json+"\n", 0)    
   end
 
   def set(data)
@@ -156,15 +156,8 @@ class SensorParser < EventMachine::Connection
       $light.set(data['data']['Interface'])           
       $pump.set(data['data']['Interface'])
       manage_temperature(data['data']['Interface']['temperature'])
-
-      # if data['data']['Interface']['onState'] == 3
-      # end               
-
       $ride << data['data']["Interface"]                   
-
-
     end
-    
 
     puts $light.inspect
     puts $ride.inspect       
