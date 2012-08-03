@@ -95,7 +95,7 @@ class Trafficlight
       cl = UDPSocket.new
      cl.setsockopt(Socket::SOL_SOCKET,Socket::SO_REUSEADDR,1)
      cl.setsockopt(Socket::SOL_SOCKET,Socket::SO_BROADCAST,1)
-     cl.send(payload, 0, '0.0.0.0', 8282)
+     cl.send(payload.to_json+"\n", 0, '0.0.0.0', 8282)
   end
 
   def set(data)
