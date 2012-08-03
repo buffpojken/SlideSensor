@@ -30,11 +30,11 @@ require 'json'
 # sock.close
 
 sock = UDPSocket.new                  
-sock.setsockopt(Socket::SOL_SOCKET, Socket::SO_BROADCAST, true)
+sock.setsockopt(Socket::SOL_SOCKET, Socket::SO_BROADCAST, 1)
 payload = {
   "to"    => "beckhoff", 
   "cmd"   => "set", 
-  "tag"   => "ibPump",
+  "tag"   => "ibForceYellow",
   "from"  => "slider",
   "value" => true
 }

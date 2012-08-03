@@ -201,9 +201,12 @@ end
 
 cl = UDPSocket.new
 cl.setsockopt(Socket::SOL_SOCKET,Socket::SO_REUSEADDR,1)
+cl.setsockopt(Socket::SOL_SOCKET,Socket::SO_BROADCAST,1)
+
 cl.bind('0.0.0.0', 8282)
                            
 $oc = UDPSocket.new                  
+$oc.setsockopt(Socket::SOL_SOCKET,Socket::SO_BROADCAST,1)
 $oc.connect('0.0.0.0', 8282)
 
 EventMachine::run {         
