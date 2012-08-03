@@ -54,7 +54,6 @@ class Trafficlight
   attr_accessor :red, :green, :yellow, :captured
 
   def initialize
-    self.state = nil
     self.captured = false
   end    
   
