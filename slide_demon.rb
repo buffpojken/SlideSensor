@@ -124,14 +124,16 @@ class Ride
     self.start, self.stop, self.points = false, false, []
   end
 
-  def <<(data)
-    self.start = data["onTime1"]      
-    self.points[0] = data['onTime2']
-    self.points[1] = data['onTime3']
-    self.stop  = data["onTimeTotal"]
-    self.state = data['onState']
-    if self.state = 4
-      self.save
+  def <<(data)                   
+    if data['onState'] != self.state
+      self.start = data["onTime1"]      
+      self.points[0] = data['onTime2']
+      self.points[1] = data['onTime3']
+      self.stop  = data["onTimeTotal"]
+      self.state = data['onState']
+      if self.state = 4
+        self.save
+      end
     end
   end                                 
 
@@ -139,7 +141,6 @@ class Ride
     puts "insert into photos(temperature, ride_time, ride_no, timestamp_1, timestamp_2, timestamp_3, created_at, updated_at) select #{$temperature}, #{self.stop}, count(*)+1, #{self.start}, #{self.points[0]}, #{self.points[1]}, NOW(), NOW() from photos"
     q = $db.query("insert into photos(temperature, ride_time, ride_no, timestamp_1, timestamp_2, timestamp_3, created_at, updated_at) select #{$temperature}, #{self.stop}, count(*)+1, #{self.start}, #{self.points[0]}, #{self.points[1]}, NOW(), NOW() from photos")    
     q.callback do |res|
-      $ride = Ride.new
       puts "Saved"
     end
     q.errback do |res|
