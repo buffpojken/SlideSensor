@@ -14,7 +14,7 @@ class APIServer < EM::Connection
   end        
 
   def process_http_request
-    params = CGI::parse(@http_query_string)    
+    params = CGI::parse((@http_query_string || ""))    
     if @http_path_info == "/pump"
       $pump.toggle
     end
@@ -195,7 +195,7 @@ EventMachine::run {
   $light          = Trafficlight.new
   $temperature    = 0                
   $pump           = Pump.new                
-  
+
+  read = EventMachine.attach(cl, SensorParser)  
   EM.start_server '0.0.0.0', 4568, APIServer
-  read = EventMachine.attach(cl, SensorParser)
 }
