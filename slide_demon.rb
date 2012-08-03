@@ -150,7 +150,7 @@ class SensorParser < EventMachine::Connection
     unless data["type"] == "state"
       return
     end                    
-
+    return if !data['data']
     $light.set(data['data']['Interface'])           
     $pump.set(data['data']['Interface'])
     manage_temperature(data['data']['Interface']['temperature'])
