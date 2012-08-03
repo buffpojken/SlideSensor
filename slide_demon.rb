@@ -14,7 +14,8 @@ class APIServer < EM::Connection
   end        
 
   def process_http_request
-    params = CGI::parse((@http_query_string || ""))    
+    params = CGI::parse((@http_query_string || ""))      
+    
     if @http_path_info == "/pump"
       $pump.toggle
     end
@@ -152,6 +153,7 @@ class SensorParser < EventMachine::Connection
       return
     end                    
     return if !data['data'] || data['data'].empty?
+
     if data['data']['Interface']
       $light.set(data['data']['Interface'])           
       $pump.set(data['data']['Interface'])
@@ -187,7 +189,7 @@ cl.setsockopt(Socket::SOL_SOCKET,Socket::SO_REUSEADDR,1)
 cl.bind('0.0.0.0', 8282)
                            
 $oc = UDPSocket.new                  
-$oc.connect('kanan.vassaro.net', 8282)
+$oc.connect('0.0.0.0', 8282)
 
 EventMachine::run {         
   $db = EventMachine::MySQL.new(:host => "localhost", :username => "root", :database => "kanan_dev")  
