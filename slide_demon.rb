@@ -156,7 +156,7 @@ class SensorParser < EventMachine::Connection
       $pump.set(data['data']['Interface'])
       manage_temperature(data['data']['Interface']['temperature'])
 
-      if data['data']['Interface']['onState'] == "3"
+      if data['data']['Interface']['onState'] == 3
         $ride = Ride.new
       end               
 
