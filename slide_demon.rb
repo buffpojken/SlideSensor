@@ -15,7 +15,6 @@ class APIServer < EM::Connection
 
   def process_http_request
     params = CGI::parse(@http_query_string)    
-    puts params.inspect   
     if @http_path_info == "/pump"
       $pump.toggle
     end
@@ -121,6 +120,7 @@ class Ride
   end                                 
 
   def save
+    puts "insert into photos(temperature, ride_time, ride_no, timestamp_1, timestamp_2, timestamp_3, created_at, updated_at) select #{$temperature}, #{self.stop}, count(*)+1, #{self.start}, #{self.points[0]}, #{self.points[1]}, NOW(), NOW() from photos"
     q = $db.query("insert into photos(temperature, ride_time, ride_no, timestamp_1, timestamp_2, timestamp_3, created_at, updated_at) select #{$temperature}, #{self.stop}, count(*)+1, #{self.start}, #{self.points[0]}, #{self.points[1]}, NOW(), NOW() from photos")    
     q.callback do |res|
       $ride = Ride.new
