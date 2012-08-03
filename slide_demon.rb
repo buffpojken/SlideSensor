@@ -151,15 +151,20 @@ class SensorParser < EventMachine::Connection
       return
     end                    
     return if !data['data']
-    $light.set(data['data']['Interface'])           
-    $pump.set(data['data']['Interface'])
-    manage_temperature(data['data']['Interface']['temperature'])
+    if data['data']['Interface']
+      $light.set(data['data']['Interface'])           
+      $pump.set(data['data']['Interface'])
+      manage_temperature(data['data']['Interface']['temperature'])
+
+      if data['data']['Interface']['onState'] == "3"
+        $ride = Ride.new
+      end               
+
+      $ride << data['data']["Interface"]                   
+
+
+    end
     
-    if data['data']['Interface']['onState'] == "3"
-      $ride = Ride.new
-    end               
-    
-    $ride << data['data']["Interface"]                   
 
     puts $light.inspect
     puts $ride.inspect       
