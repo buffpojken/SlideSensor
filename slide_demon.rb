@@ -123,6 +123,7 @@ class Ride
     puts "insert into photos(temperature, ride_time, ride_no, timestamp_1, timestamp_2, timestamp_3, created_at, updated_at) select #{$temperature}, #{self.stop}, count(*)+1, #{self.start}, #{self.points[0]}, #{self.points[1]}, NOW(), NOW() from photos"
     q = $db.query("insert into photos(temperature, ride_time, ride_no, timestamp_1, timestamp_2, timestamp_3, created_at, updated_at) select #{$temperature}, #{self.stop}, count(*)+1, #{self.start}, #{self.points[0]}, #{self.points[1]}, NOW(), NOW() from photos")    
     q.callback do |res|
+      $ride = Ride.new
       puts "Saved"
     end
     q.errback do |res|
@@ -156,9 +157,8 @@ class SensorParser < EventMachine::Connection
       $pump.set(data['data']['Interface'])
       manage_temperature(data['data']['Interface']['temperature'])
 
-      if data['data']['Interface']['onState'] == 3
-        $ride = Ride.new
-      end               
+      # if data['data']['Interface']['onState'] == 3
+      # end               
 
       $ride << data['data']["Interface"]                   
 

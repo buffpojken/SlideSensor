@@ -35,7 +35,7 @@ payload = {
   "cmd"   => "set", 
   "tag"   => "ibPump",
   "from"  => "slider",
-  "value" => false
+  "value" => true
 }
 sock.send(payload.to_json+"\n", 0, 'kanan.vassaro.net', 8282)
 sock.close
