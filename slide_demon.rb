@@ -25,7 +25,7 @@ class APIServer < EM::Connection
     response = EM::DelegatedHttpResponse.new(self)
     response.status = 200
     response.content_type 'text/javascript'     
-    status = {:pump => $pump.state}
+    status = {:pump => $pump.state, :red => $light.red, :yellow => $light.yellow, :green => $light.green}
     response.content = "#{params["callback"][0]}(#{status.to_json})"
     response.send_response      
   end
