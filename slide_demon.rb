@@ -51,7 +51,7 @@ class Pump
 end
 
 class Trafficlight
-  attr_accessor :state, :captured
+  attr_accessor :red, :green, :yellow, :captured
 
   def initialize
     self.state = nil
@@ -65,39 +65,55 @@ class Trafficlight
       "from"  => "slider",
     }        
     case light
-      when "green"
-        payload['tag'] = "ibForceGreen"
-        payload['value'] = true
-      when "yellow"
+      when "green"              
+        payload['tag'] = "ibForceGreen"    
+        if self.green
+          payload['value'] = true            
+          self.green = true
+        else          
+          payload['value'] = false            
+          self.green = false
+        end
+      when "yellow"          
         payload['tag'] = "ibForceYellow"
-        payload['value'] = true
-       when "red"
+        if self.yellow
+          payload['value'] = true
+          self.yellow = true
+        else
+          payload['value'] = false
+          self.yellow = false          
+        end
+       when "red"            
         payload['tag'] = "ibForceRed"
-        payload['value'] = true
-      end   
-          
-     puts payload.inspect
-     $oc.send(payload.to_json+"\n", 0)    
+        if self.red
+          payload['value'] = true
+          self.red = true        
+        else
+          payload['value'] = false
+          self.red = false
+        end
+      end
+    $oc.send(payload.to_json+"\n", 0)    
   end
 
   def set(data)
-    self.red = data['obRed']
-    self.green = data['obGreen']
-    self.yellow = data['obYellow']
+    self.red_light = data['obRed']
+    self.green_light = data['obGreen']
+    self.yellow_light = data['obYellow']
   end           
 
   private
 
-  def red=(flag)
-    self.state = :red if flag
+  def red_light=(flag)
+    self.red = true if flag
   end
 
-  def yellow=(flag)
-    self.state = :yellow if flag
+  def yellow_light=(flag)
+    self.yellow = true if flag
   end
 
-  def green=(flag)
-    self.state = :green if flag
+  def green_light=(flag)
+    self.green = true if flag
   end         
 
 end

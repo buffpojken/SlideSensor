@@ -31,10 +31,11 @@ require 'json'
 
 sock = UDPSocket.new                  
 sock.setsockopt(Socket::SOL_SOCKET,Socket::SO_REUSEADDR,1)
+sock.setsockopt(Socket::SOL_SOCKET, Socket::SO_BROADCAST, 1)
 payload = {
   "to"    => "beckhoff", 
   "cmd"   => "set", 
-  "tag"   => "ibPump",
+  "tag"   => "ibForceYellow",
   "from"  => "slider",
   "value" => false
 }
