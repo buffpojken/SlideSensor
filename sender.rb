@@ -34,9 +34,9 @@ sock.setsockopt(Socket::SOL_SOCKET, Socket::SO_BROADCAST, 1)
 payload = {
   "to"    => "beckhoff", 
   "cmd"   => "set", 
-  "tag"   => "ibPump",
+  "tag"   => "ibForceGreen",
   "from"  => "slider",
-  "value" => false
+  "value" => true
 }
 sock.send(payload.to_json+"\n", 0, 'kanan.vassaro.net', 8282)
 sock.close
