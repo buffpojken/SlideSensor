@@ -195,7 +195,7 @@ class SensorParser < EventMachine::Connection
       
       $light.set(data['data']['Interface'])           
       $pump.set(data['data']['Interface'])
-      manage_temperature(data['data']['Interface']['temperature'])
+      manage_temperature(data['data']['Interface']['onTemperature'])
       $ride << data['data']["Interface"]                   
     end
 
