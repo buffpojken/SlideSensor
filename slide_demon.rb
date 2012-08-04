@@ -209,7 +209,7 @@ class SensorParser < EventMachine::Connection
   def manage_temperature(temp)      
     return if temp.nil? || temp.to_s.empty?
     unless $temperature == temp  
-      q = $db.query("insert into data_points(data_key, data_value, created_at, updated_at) values('temperature', '"+(temp/1000).to_s+"', NOW(), NOW())")
+      q = $db.query("insert into data_points(data_key, data_value, created_at, updated_at) values('temperature', '"+(temp/1000.0).to_s+"', NOW(), NOW())")
       q.callback do |res|
         $temperature = temp
       end                                                      
