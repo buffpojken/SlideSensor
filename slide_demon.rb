@@ -133,7 +133,6 @@ class Ride
 
   def <<(data)             
     puts self.state.inspect
-    puts data['onState'].inspect         
     if data['onState'] != self.state
       self.state = data['onState']
       if self.state == 4
@@ -173,13 +172,27 @@ end
 class SensorParser < EventMachine::Connection
   def receive_data(data) 
     data = JSON.parse(data)
-    puts data.inspect    
+    
     unless data["type"] == "state"
       return
     end                    
     return if !data['data'] || data['data'].empty?
 
-    if data['data']['Interface']
+    if data['data']['Interface']    
+      if data['data']['Interface']['obReady']
+        payload = {
+          "to"    => "beckhoff", 
+          "cmd"   => "set", 
+          "tag"   => "ibRelease",
+          "from"  => "slider",
+          "value" => true
+        }          
+        cl = UDPSocket.new
+        cl.setsockopt(Socket::SOL_SOCKET,Socket::SO_REUSEADDR,1)
+        cl.setsockopt(Socket::SOL_SOCKET,Socket::SO_BROADCAST,1)
+        cl.send(payload.to_json+"\n", 0, '0.0.0.0', 8282)
+      end
+      
       $light.set(data['data']['Interface'])           
       $pump.set(data['data']['Interface'])
       manage_temperature(data['data']['Interface']['temperature'])
