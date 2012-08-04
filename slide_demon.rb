@@ -131,15 +131,15 @@ class Ride
     self.start, self.stop, self.points = false, false, []
   end
 
-  def <<(data)                   
+  def <<(data)             
+    puts self.state.inspect
+    puts data['onState'].inspect         
     if data['onState'] != self.state
-      if data['onState'] == 3
+      self.state = data['onState']
+      if self.state == 4
         self.start = data["onTime1"]      
         self.points[0] = data['onTime2']
         self.points[1] = data['onTime3']
-        self.state = data['onState']
-      end
-      if self.state = 4
         self.stop  = data["onTimeTotal"]
         self.save
       end
@@ -150,7 +150,6 @@ class Ride
     puts "insert into photos(temperature, ride_time, ride_no, timestamp_1, timestamp_2, timestamp_3, created_at, updated_at) select #{$temperature}, #{self.stop}, count(*)+1, #{self.start}, #{self.points[0]}, #{self.points[1]}, NOW(), NOW() from photos"
     q = $db.query("insert into photos(temperature, ride_time, ride_no, timestamp_1, timestamp_2, timestamp_3, created_at, updated_at) select #{$temperature}, #{self.stop}, count(*)+1, #{self.start}, #{self.points[0]}, #{self.points[1]}, NOW(), NOW() from photos")    
     q.callback do |res|
-      $ride = Ride.new                  
       puts "Saved"
     end
     q.errback do |res|
@@ -195,7 +194,7 @@ class SensorParser < EventMachine::Connection
   private 
 
   def manage_temperature(temp)      
-    return if temp.nil? || temp.empty?
+    return if temp.nil? || temp.to_s.empty?
     unless $temperature == temp  
       q = $db.query("insert into data_points(data_key, data_value, created_at, updated_at) values('temperature', '"+temp.to_s+"', NOW(), NOW())")
       q.callback do |res|
