@@ -172,7 +172,7 @@ end
 class SensorParser < EventMachine::Connection
   def receive_data(data) 
     data = JSON.parse(data)
-    
+    puts data.inspect
     unless data["type"] == "state"
       return
     end                    
@@ -222,6 +222,19 @@ class SensorParser < EventMachine::Connection
 end  
 
 
+payload = {
+  "to"    => "beckhoff", 
+  "cmd"   => "set", 
+  "tag"   => "ibAuto",
+  "from"  => "slider",
+  "value" => false
+}          
+cl2 = UDPSocket.new
+cl2.setsockopt(Socket::SOL_SOCKET,Socket::SO_REUSEADDR,1)
+cl2.setsockopt(Socket::SOL_SOCKET,Socket::SO_BROADCAST,1)
+cl2.send(payload.to_json+"\n", 0, '0.0.0.0', 8282)
+
+
 cl = UDPSocket.new
 cl.setsockopt(Socket::SOL_SOCKET,Socket::SO_REUSEADDR,1)
 cl.setsockopt(Socket::SOL_SOCKET,Socket::SO_BROADCAST,1)
@@ -237,3 +250,4 @@ EventMachine::run {
   read = EventMachine.attach(cl, SensorParser)  
   EM.start_server '0.0.0.0', 4568, APIServer
 }
+
