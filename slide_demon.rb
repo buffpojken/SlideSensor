@@ -145,7 +145,8 @@ class Ride
     end
   end                                 
 
-  def save
+  def save                           
+    return if self.stop < 10000 
     puts "insert into photos(temperature, ride_time, ride_no, timestamp_1, timestamp_2, timestamp_3, created_at, updated_at) select #{$temperature}, #{self.stop}, count(*)+1, #{self.start}, #{self.points[0]}, #{self.points[1]}, NOW(), NOW() from photos"
     q = $db.query("insert into photos(temperature, ride_time, ride_no, timestamp_1, timestamp_2, timestamp_3, created_at, updated_at) select #{$temperature}, #{self.stop}, count(*)+1, #{self.start}, #{self.points[0]}, #{self.points[1]}, NOW(), NOW() from photos")    
     q.callback do |res|
