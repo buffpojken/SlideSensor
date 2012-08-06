@@ -110,15 +110,15 @@ class Trafficlight
   private
 
   def red_light=(flag)
-    self.red = true if flag
+    self.red = flag
   end
 
   def yellow_light=(flag)
-    self.yellow = true if flag
+    self.yellow = flag
   end
 
   def green_light=(flag)
-    self.green = true if flag
+    self.green = flag
   end         
 
 end
