@@ -154,33 +154,33 @@ class Ride
         :to   => "bunny", 
         :cmd  => "play"
       }                
-      if self.ride_time < 11.0
+      if self.stop < 11.0
         payload[:value] = "outstanding.ogg"
-      elsif self.ride_time < 11.1 
+      elsif self.stop < 11.1 
         payload[:value] = "unreal.ogg"
-      elsif self.ride_time < 11.2
+      elsif self.stop < 11.2
         payload[:value] = "nodebuster.ogg"
-       elsif self.ride_time < 11.3
+       elsif self.stop < 11.3
          payload[:value] = "rampage.ogg"
-       elsif self.ride_time < 11.4
+       elsif self.stop < 11.4
          payload[:value] = "unstoppable.ogg"
-       elsif self.ride_time < 11.5
+       elsif self.stop < 11.5
          payload[:value] = "dominating.ogg"
-       elsif self.ride_time < 11.6
+       elsif self.stop < 11.6
          payload[:value] = "headhunter.ogg"
-       elsif self.ride_time < 11.7
+       elsif self.stop < 11.7
          payload[:value] = "eagleeye.ogg"
-       elsif self.ride_time < 11.8
+       elsif self.stop < 11.8
          payload[:value] = "gunslinger.ogg"
-       elsif self.ride_time < 11.9
+       elsif self.stop < 11.9
          payload[:value] = "monsterkill.ogg"
-       elsif self.ride_time < 12.0
+       elsif self.stop < 12.0
          payload[:value] = "megakill.ogg"
-       elsif self.ride_time < 12.5
+       elsif self.stop < 12.5
          payload[:value] = "godlike.ogg"
-       elsif self.ride_time < 13.0
+       elsif self.stop < 13.0
          payload[:value] = "shaftmaster.ogg"
-       elsif self.ride_time < 14.0
+       elsif self.stop < 14.0
          payload[:value] = "roadkill.ogg"
        else
           payload[:value] = "denied.ogg"
