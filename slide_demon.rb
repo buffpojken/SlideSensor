@@ -150,6 +150,45 @@ class Ride
     puts "insert into photos(temperature, ride_time, ride_no, timestamp_1, timestamp_2, timestamp_3, created_at, updated_at) select #{$temperature}, #{self.stop}, count(*)+1, #{self.start}, #{self.points[0]}, #{self.points[1]}, NOW(), NOW() from photos"
     q = $db.query("insert into photos(temperature, ride_time, ride_no, timestamp_1, timestamp_2, timestamp_3, created_at, updated_at) select #{$temperature}, #{self.stop}, count(*)+1, #{self.start}, #{self.points[0]}, #{self.points[1]}, NOW(), NOW() from photos")    
     q.callback do |res|
+      payload = {
+        :to   => "bunny", 
+        :cmd  => "play"
+      }                
+      if self.ride_time < 11.0
+        payload[:value] = "outstanding.ogg"
+      elsif self.ride_time < 11.1 
+        payload[:value] = "unreal.ogg"
+      elsif self.ride_time < 11.2
+        payload[:value] = "nodebuster.ogg"
+       elsif self.ride_time < 11.3
+         payload[:value] = "rampage.ogg"
+       elsif self.ride_time < 11.4
+         payload[:value] = "unstoppable.ogg"
+       elsif self.ride_time < 11.5
+         payload[:value] = "dominating.ogg"
+       elsif self.ride_time < 11.6
+         payload[:value] = "headhunter.ogg"
+       elsif self.ride_time < 11.7
+         payload[:value] = "eagleeye.ogg"
+       elsif self.ride_time < 11.8
+         payload[:value] = "gunslinger.ogg"
+       elsif self.ride_time < 11.9
+         payload[:value] = "monsterkill.ogg"
+       elsif self.ride_time < 12.0
+         payload[:value] = "megakill.ogg"
+       elsif self.ride_time < 12.5
+         payload[:value] = "godlike.ogg"
+       elsif self.ride_time < 13.0
+         payload[:value] = "shaftmaster.ogg"
+       elsif self.ride_time < 14.0
+         payload[:value] = "roadkill.ogg"
+       else
+          payload[:value] = "denied.ogg"
+       end                             
+      cl = UDPSocket.new
+      cl.setsockopt(Socket::SOL_SOCKET,Socket::SO_REUSEADDR,1)
+      cl.setsockopt(Socket::SOL_SOCKET,Socket::SO_BROADCAST,1)
+      cl.send(payload.to_json+"\n", 0, '172.16.21.255', 8282)       
       puts "Saved"
     end
     q.errback do |res|
