@@ -183,6 +183,8 @@ class Ride
          payload[:value] = "shaftmaster.ogg"
        elsif time < 14.0
          payload[:value] = "roadkill.ogg"
+       elsif time < 30.0
+         payload[:value] = "pancake.ogg"
        else
           payload[:value] = "denied.ogg"
        end                             
